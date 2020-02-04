@@ -11,10 +11,10 @@ function validateEmail(email) {
   return re.test(String(email).toLowerCase());
 }
 
-/** Проверяет пароль, озвращает false при длинне пароля менее 6 символов и true в другом случае */
+/** Проверяет пароль, озвращает false при длинне пароля менее 6или более 20, символов bkb и true в другом случае */
 function validatePassword(pass) {
   const stringPass = String(pass);
-  if (stringPass.length >= 6) {
+  if (stringPass.length >= 6 && stringPass.length <= 20) {
     return true;
   }
   return false;
@@ -31,7 +31,9 @@ module.exports.login = async function(req, res) {
         const token = jwt.sign(
           {
             email: candidate.email,
-            userId: candidate._id
+            userId: candidate._id,
+            firstName: candidate.firstName,
+            lastName: candidate.lastName
           },
           keys.JWT_KEY,
           { expiresIn: 60 * 60 }
@@ -67,7 +69,9 @@ module.exports.registration = async function(req, res) {
     const password = req.body.password;
     const user = new User({
       email: req.body.email,
-      password: bcrypt.hashSync(password, salt)
+      password: bcrypt.hashSync(password, salt),
+      firstName: req.body.firstName,
+      lastName: req.body.lastName
     });
 
     if (validateEmail(user.email) && validatePassword(password)) {

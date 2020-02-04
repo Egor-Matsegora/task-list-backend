@@ -9,7 +9,21 @@ const userSchema = new Schema({
   },
   password: {
     type: String,
+    reqired: true,
+    min: 6,
+    max: 20
+  },
+  firstName: {
+    type: String,
     reqired: true
+  },
+  lastName: {
+    type: String,
+    reqired: true
+  },
+  imageUrl: {
+    type: String,
+    reqired: false
   }
 });
 
