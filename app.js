@@ -12,6 +12,7 @@ const keys = require('./config/keys.config');
 /** Import routes */
 const authRoutes = require('./routes/auth.route');
 const systemRoutes = require('./routes/system.route');
+const getUserRoutes = require('./routes/get-user-by-email.route');
 
 /** import middleware */
 const passportMiddleware = require('./middleware/passport/passport.middleware');
@@ -36,6 +37,7 @@ app.use(bodyParser.json());
 
 /** Routes */
 app.use('/auth', authRoutes);
+app.use('', getUserRoutes);
 app.use('/system', systemRoutes);
 
 module.exports = app;

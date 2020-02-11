@@ -39,19 +39,25 @@ module.exports.login = async function(req, res) {
           { expiresIn: 60 * 60 }
         );
 
-        res.status(200).json({ token: `Bearer ${token}` });
+        res.status(200).json({
+          token: `Bearer ${token}`,
+          succes: false
+        });
       } else {
         res.status(401).json({
+          success: false,
           message: 'wrong password'
         });
       }
     } else {
       res.status(404).json({
+        success: false,
         message: 'user not found'
       });
     }
   } else {
     res.status(400).json({
+      success: false,
       message: 'invalid email or small password'
     });
   }
@@ -77,15 +83,19 @@ module.exports.registration = async function(req, res) {
     if (validateEmail(user.email) && validatePassword(password)) {
       try {
         await user.save().then(() => console.log(`user with email: ${user.email} was created`));
-        res.status(201).json(user);
+        res.status(201).json({
+          success: true
+        });
       } catch (err) {
         console.error(err);
         res.status(500).json({
+          success: false,
           message: 'Internal server error'
         });
       }
     } else {
       res.status(400).json({
+        success: false,
         message: 'invalid email or small password'
       });
     }
