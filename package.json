@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "serve": "nodemon ndex.js"
+    "serve": "nodemon index.js"
   },
   "author": "egor matsegora",
   "license": "ISC",
