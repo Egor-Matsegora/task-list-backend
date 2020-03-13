@@ -11,7 +11,7 @@ const keys = require('./config/keys.config');
 
 /** Import routes */
 const authRoutes = require('./routes/auth.route');
-const systemRoutes = require('./routes/system.route');
+const tasksRoutes = require('./routes/tasks.route');
 const getUserRoutes = require('./routes/get-user-by-email.route');
 
 /** import middleware */
@@ -25,7 +25,7 @@ mongoose
   .then(() => console.log('mongoDB connected'))
   .catch(error => console.error(error));
 
-  /** passport usage */
+/** passport usage */
 app.use(passport.initialize());
 passportMiddleware(passport);
 
@@ -36,8 +36,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 /** Routes */
-app.use('/auth', authRoutes);
-app.use('', getUserRoutes);
-app.use('/system', systemRoutes);
+app.use('/api', authRoutes);
+app.use('/api', getUserRoutes);
+app.use('/api/tasks', tasksRoutes);
 
 module.exports = app;
