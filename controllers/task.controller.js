@@ -14,11 +14,11 @@ module.exports.getUserTasks = async function(req, res) {
 
 module.exports.create = async function(req, res) {
   try {
-    const position = await new Position({
+    const position = await new Task({
       tytle: req.body.tytle,
       description: req.body.description,
       done: false,
-      date: new Date.now(),
+      date: Date.now(),
       user: req.user.id
     }).save();
     res.status(201).json(position);
@@ -29,7 +29,7 @@ module.exports.create = async function(req, res) {
 
 module.exports.update = async function(req, res) {
   try {
-    const position = await Position.findOneAndUpdate({ _id: req.params.id }, { $set: req.body }, { new: true });
+    const position = await Task.findOneAndUpdate({ _id: req.params.id }, { $set: req.body }, { new: true });
     res.staus(200).json(position);
   } catch (error) {
     errorHandler(res, error);
@@ -38,7 +38,7 @@ module.exports.update = async function(req, res) {
 
 module.exports.delete = async function(req, res) {
   try {
-    await Position.remove({ _id: req.params.id });
+    await Task.remove({ _id: req.params.id });
     res.status(200).json({
       success: true,
       message: 'position removed'

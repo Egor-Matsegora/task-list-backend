@@ -38,6 +38,6 @@ app.use(bodyParser.json());
 /** Routes */
 app.use('/api', authRoutes);
 app.use('/api', getUserRoutes);
-app.use('/api/tasks', tasksRoutes);
+app.use('/api/tasks', passport.authenticate('jwt', { session: false }), tasksRoutes);
 
 module.exports = app;
