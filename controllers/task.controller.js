@@ -30,7 +30,7 @@ module.exports.create = async function(req, res) {
 module.exports.update = async function(req, res) {
   try {
     const position = await Task.findOneAndUpdate({ _id: req.params.id }, { $set: req.body }, { new: true });
-    res.staus(200).json(position);
+    res.status(200).json(position);
   } catch (error) {
     errorHandler(res, error);
   }
@@ -41,7 +41,7 @@ module.exports.delete = async function(req, res) {
     await Task.remove({ _id: req.params.id });
     res.status(200).json({
       success: true,
-      message: 'position removed'
+      message: 'task removed'
     });
   } catch (error) {
     errorHandler(res, error);
