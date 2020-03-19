@@ -12,6 +12,7 @@ const keys = require('./config/keys.config');
 /** Import routes */
 const authRoutes = require('./routes/auth.route');
 const tasksRoutes = require('./routes/tasks.route');
+const notesRoutes = require('./routes/notes.route');
 const getUserRoutes = require('./routes/get-user-by-email.route');
 
 /** import middleware */
@@ -39,5 +40,6 @@ app.use(bodyParser.json());
 app.use('/api', authRoutes);
 app.use('/api', getUserRoutes);
 app.use('/api/tasks', passport.authenticate('jwt', { session: false }), tasksRoutes);
+app.use('/api/notes', passport.authenticate('jwt', { session: false }), notesRoutes);
 
 module.exports = app;

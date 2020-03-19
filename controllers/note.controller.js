@@ -1,12 +1,12 @@
-const Task = require('../models/Task.model');
+const Note = require('../models/Note.model');
 const errorHandler = require('../helpers/error-handler.helper');
 
-module.exports.getUserTasks = async function(req, res) {
+module.exports.getUserNotes = async function(req, res) {
   try {
-    const tasks = await Task.find({
+    const notes = await Note.find({
       user: req.user.id
     });
-    res.status(200).json(tasks);
+    res.status(200).json(notes);
   } catch (error) {
     errorHandler(res, error);
   }
@@ -14,14 +14,14 @@ module.exports.getUserTasks = async function(req, res) {
 
 module.exports.create = async function(req, res) {
   try {
-    const task = await new Task({
+    const note = await new Note({
       tytle: req.body.tytle,
       description: req.body.description,
       done: false,
       date: Date.now(),
       user: req.user.id
     }).save();
-    res.status(201).json(task);
+    res.status(201).json(note);
   } catch (error) {
     errorHandler(res, error);
   }
@@ -29,8 +29,8 @@ module.exports.create = async function(req, res) {
 
 module.exports.update = async function(req, res) {
   try {
-    const task = await Task.findOneAndUpdate({ _id: req.params.id }, { $set: req.body }, { new: true });
-    res.status(200).json(task);
+    const note = await Note.findOneAndUpdate({ _id: req.params.id }, { $set: req.body }, { new: true });
+    res.status(200).json(note);
   } catch (error) {
     errorHandler(res, error);
   }
@@ -38,10 +38,10 @@ module.exports.update = async function(req, res) {
 
 module.exports.delete = async function(req, res) {
   try {
-    await Task.remove({ _id: req.params.id });
+    await Note.remove({ _id: req.params.id });
     res.status(200).json({
       success: true,
-      message: 'task removed'
+      message: 'note removed'
     });
   } catch (error) {
     errorHandler(res, error);
