@@ -36,7 +36,7 @@ module.exports.login = async function(req, res) {
             lastName: candidate.lastName
           },
           keys.JWT_KEY,
-          { expiresIn: 60 * 60 }
+          { expiresIn: 60 * 60 * 3 }
         );
 
         res.status(200).json({

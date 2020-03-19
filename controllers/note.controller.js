@@ -15,9 +15,8 @@ module.exports.getUserNotes = async function(req, res) {
 module.exports.create = async function(req, res) {
   try {
     const note = await new Note({
-      tytle: req.body.tytle,
-      description: req.body.description,
-      done: false,
+      text: req.body.text,
+      title: req.body.title,
       date: Date.now(),
       user: req.user.id
     }).save();
