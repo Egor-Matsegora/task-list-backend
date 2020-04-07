@@ -14,6 +14,7 @@ const authRoutes = require('./routes/auth.route');
 const tasksRoutes = require('./routes/tasks.route');
 const notesRoutes = require('./routes/notes.route');
 const getUserRoutes = require('./routes/get-user-by-email.route');
+const statisticsRoutes = require('./routes/statistics.route');
 
 /** import middleware */
 const passportMiddleware = require('./middleware/passport/passport.middleware');
@@ -24,7 +25,7 @@ const app = express();
 mongoose
   .connect(keys.MONGO_URL)
   .then(() => console.log('mongoDB connected'))
-  .catch(error => console.error(error));
+  .catch((error) => console.error(error));
 
 /** passport usage */
 app.use(passport.initialize());
@@ -41,5 +42,6 @@ app.use('/api', authRoutes);
 app.use('/api', getUserRoutes);
 app.use('/api/tasks', passport.authenticate('jwt', { session: false }), tasksRoutes);
 app.use('/api/notes', passport.authenticate('jwt', { session: false }), notesRoutes);
+app.use('/api/statistics', passport.authenticate('jwt', { session: false }), statisticsRoutes);
 
 module.exports = app;

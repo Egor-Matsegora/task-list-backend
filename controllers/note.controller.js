@@ -1,10 +1,10 @@
 const Note = require('../models/Note.model');
 const errorHandler = require('../helpers/error-handler.helper');
 
-module.exports.getUserNotes = async function(req, res) {
+module.exports.getUserNotes = async function (req, res) {
   try {
     const notes = await Note.find({
-      user: req.user.id
+      user: req.user.id,
     });
     res.status(200).json(notes);
   } catch (error) {
@@ -12,13 +12,13 @@ module.exports.getUserNotes = async function(req, res) {
   }
 };
 
-module.exports.create = async function(req, res) {
+module.exports.create = async function (req, res) {
   try {
     const note = await new Note({
       text: req.body.text,
       title: req.body.title,
       date: Date.now(),
-      user: req.user.id
+      user: req.user.id,
     }).save();
     res.status(201).json(note);
   } catch (error) {
@@ -26,7 +26,7 @@ module.exports.create = async function(req, res) {
   }
 };
 
-module.exports.update = async function(req, res) {
+module.exports.update = async function (req, res) {
   try {
     const note = await Note.findOneAndUpdate({ _id: req.params.id }, { $set: req.body }, { new: true });
     res.status(200).json(note);
@@ -35,12 +35,12 @@ module.exports.update = async function(req, res) {
   }
 };
 
-module.exports.delete = async function(req, res) {
+module.exports.delete = async function (req, res) {
   try {
     await Note.remove({ _id: req.params.id });
     res.status(200).json({
       success: true,
-      message: 'note removed'
+      message: 'note removed',
     });
   } catch (error) {
     errorHandler(res, error);
