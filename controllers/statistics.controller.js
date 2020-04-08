@@ -11,8 +11,36 @@ module.exports.getUserStat = async function (req, res) {
       user: req.user.id,
     });
 
-    res.status(200).json({ message: 'иди на хуй' });
+    const notesStat = getNotesStat(allNotes);
+    const allNotesNumber = allNotes.length;
+
+    const result = {
+      notes: { notesStat, allNotesNumber },
+      tasks: {},
+    };
+    res.status(200).json(result);
   } catch (error) {
     errorHandler(res, error);
   }
 };
+
+function getNotesStat(notes = []) {
+  const daysNotes = [];
+
+  notes.forEach((note) => {
+    const date = moment(note.date).format(dateFormat);
+    const dayStat = daysNotes.find((item) => item.date === date);
+    if (!dayStat) {
+      const stat = {
+        date: date,
+        notesNumber: 1,
+      };
+      daysNotes.push(stat);
+    } else {
+      const index = daysNotes.indexOf(dayStat);
+      index !== -1 && daysNotes[index].notesNumber++;
+    }
+  });
+
+  return daysNotes;
+}
