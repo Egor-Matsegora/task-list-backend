@@ -5,10 +5,10 @@ const jwtKey = require('./../../config/keys.config').JWT_KEY;
 
 const options = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: jwtKey
+  secretOrKey: jwtKey,
 };
 
-module.exports = passport => {
+module.exports = (passport) => {
   passport.use(
     new jwtStrategy(options, async (payload, done) => {
       try {
