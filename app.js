@@ -13,7 +13,7 @@ const keys = require('./config/keys.config');
 const authRoutes = require('./routes/auth.route');
 const tasksRoutes = require('./routes/tasks.route');
 const notesRoutes = require('./routes/notes.route');
-const getUserRoutes = require('./routes/get-user-by-email.route');
+const userRoutes = require('./routes/user.route');
 const statisticsRoutes = require('./routes/statistics.route');
 
 /** import middleware */
@@ -39,7 +39,7 @@ app.use(bodyParser.json());
 
 /** Routes */
 app.use('/api', authRoutes);
-app.use('/api', getUserRoutes);
+app.use('/api', userRoutes);
 app.use('/api/tasks', passport.authenticate('jwt', { session: false }), tasksRoutes);
 app.use('/api/notes', passport.authenticate('jwt', { session: false }), notesRoutes);
 app.use('/api/statistics', passport.authenticate('jwt', { session: false }), statisticsRoutes);
