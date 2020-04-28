@@ -4,6 +4,6 @@ const controller = require('../controllers/user.controller');
 const router = express.Router();
 
 router.post('/getuser', controller.getUserByEmail);
-router.get('getUserInfo', passport.authenticate('jwt', { session: false }), controller.getUserInfo);
+router.get('/getuserinfo', passport.authenticate('jwt', { session: false }), controller.getUserInfo);
 
 module.exports = router;

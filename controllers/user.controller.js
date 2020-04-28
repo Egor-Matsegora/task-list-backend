@@ -17,7 +17,8 @@ module.exports.getUserByEmail = async function (req, res) {
 
 module.exports.getUserInfo = function (req, res) {
   const user = req.user;
-  if (user.keys.length) {
+  console.log(user);
+  if (Object.keys(user).length) {
     res.status(200).json(user);
   } else {
     res.status(404).json({ success: false });
