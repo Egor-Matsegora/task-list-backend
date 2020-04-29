@@ -41,8 +41,13 @@ module.exports.getUserInfo = function (req, res) {
 };
 
 module.exports.updateUser = async function (req, res) {
+  const values = {
+    ...req.body,
+    imageUrl: req.file ? req.file.path : '',
+  };
+
   try {
-    const user = await User.findOneAndUpdate({ _id: req.user.id }, { $set: req.body }, { new: true });
+    const user = await User.findOneAndUpdate({ _id: req.user.id }, { $set: values }, { new: true });
     res.status(200).json(user);
   } catch (error) {
     errorHandler(res, error);

@@ -36,6 +36,7 @@ app.use(morgan('dev'));
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use('/files', express.static('files'));
 
 /** Routes */
 app.use('/api', authRoutes);
