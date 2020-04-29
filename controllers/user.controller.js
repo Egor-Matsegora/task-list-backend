@@ -18,7 +18,7 @@ module.exports.getUserByEmail = async function (req, res) {
 
 module.exports.getUserPassword = async function (req, res) {
   try {
-    const candidate = await User.findOne({ email: req.user.email });
+    const candidate = await User.findById(req.user.id);
     const passwordResult = bcrypt.compareSync(req.body.password, candidate.password);
 
     if (passwordResult) {
@@ -37,5 +37,25 @@ module.exports.getUserInfo = function (req, res) {
     res.status(200).json(user);
   } else {
     res.status(404).json({ success: false });
+  }
+};
+
+module.exports.updateUser = async function (req, res) {
+  try {
+    const user = await User.findOneAndUpdate({ _id: req.user.id }, { $set: req.body }, { new: true });
+    res.status(200).json(user);
+  } catch (error) {
+    errorHandler(res, error);
+  }
+};
+
+module.exports.updateUserPassword = async function (req, res) {
+  try {
+    const salt = bcrypt.genSaltSync(10);
+    const newPassword = { password: bcrypt.hashSync(req.body.password, salt) };
+    const user = await User.findOneAndUpdate({ _id: req.user.id }, { $set: newPassword }, { new: true });
+    res.status(200).json(user);
+  } catch (error) {
+    errorHandler(res, error);
   }
 };
