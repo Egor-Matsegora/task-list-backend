@@ -65,45 +65,49 @@ module.exports.login = async function (req, res) {
       });
     }
   } catch (error) {
-    errorHandler(error);
+    errorHandler(res, error);
   }
 };
 
 module.exports.registration = async function (req, res) {
-  const candidate = await User.findOne({ email: req.body.email });
+  try {
+    const candidate = await User.findOne({ email: req.body.email });
 
-  if (candidate) {
-    res.status(409).json({
-      massage: 'email already exists',
-    });
-  } else {
-    const salt = bcrypt.genSaltSync(10);
-    const password = req.body.password;
-    const user = new User({
-      email: req.body.email,
-      password: bcrypt.hashSync(password, salt),
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-    });
+    if (candidate) {
+      res.status(409).json({
+        massage: 'email already exists',
+      });
+    } else {
+      const salt = bcrypt.genSaltSync(10);
+      const password = req.body.password;
+      const user = new User({
+        email: req.body.email,
+        password: bcrypt.hashSync(password, salt),
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+      });
 
-    if (validateEmail(user.email) && validatePassword(password)) {
-      try {
-        await user.save().then(() => console.log(`user with email: ${user.email} was created`));
-        res.status(201).json({
-          success: true,
-        });
-      } catch (err) {
-        console.error(err);
-        res.status(500).json({
+      if (validateEmail(user.email) && validatePassword(password)) {
+        try {
+          await user.save().then(() => console.log(`user with email: ${user.email} was created`));
+          res.status(201).json({
+            success: true,
+          });
+        } catch (err) {
+          console.error(err);
+          res.status(500).json({
+            success: false,
+            message: 'Internal server error',
+          });
+        }
+      } else {
+        res.status(400).json({
           success: false,
-          message: 'Internal server error',
+          message: 'invalid email or small password',
         });
       }
-    } else {
-      res.status(400).json({
-        success: false,
-        message: 'invalid email or small password',
-      });
     }
+  } catch (error) {
+    errorHandler(res, error);
   }
 };
