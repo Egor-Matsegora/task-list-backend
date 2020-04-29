@@ -31,16 +31,19 @@ module.exports.getUserPassword = async function (req, res) {
   }
 };
 
-module.exports.getUserInfo = function (req, res) {
-  const user = req.user;
-  if (Object.keys(user).length) {
-    res.status(200).json(user);
-  } else {
-    res.status(404).json({ success: false });
+module.exports.getUserInfo = async function (req, res) {
+  try {
+    const user = await User.findById(req.user.id);
+    if (user) {
+      res.status(200).json(user);
+    }
+  } catch (error) {
+    errorHandler(res, error);
   }
 };
 
 module.exports.updateUser = async function (req, res) {
+  console.log(req.file);
   const values = {
     ...req.body,
     imageUrl: req.file ? req.file.path : '',
