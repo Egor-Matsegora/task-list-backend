@@ -6,5 +6,6 @@ router.get('/', controller.getUserTasks);
 router.post('/', controller.create);
 router.patch('/:id', controller.update);
 router.delete('/:id', controller.delete);
+router.post('/delete_multiple', controller.deleteMultiple);
 
 module.exports = router;

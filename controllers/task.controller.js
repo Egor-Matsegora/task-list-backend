@@ -47,3 +47,15 @@ module.exports.delete = async function (req, res) {
     errorHandler(res, error);
   }
 };
+
+module.exports.deleteMultiple = async function (req, res) {
+  try {
+    await Task.remove({ _id: { $in: req.body.ids } });
+    res.status(200).json({
+      success: true,
+      message: 'multiple tasks removed',
+    });
+  } catch (error) {
+    errorHandler(res, error);
+  }
+};
