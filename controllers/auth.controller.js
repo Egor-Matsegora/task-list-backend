@@ -44,7 +44,13 @@ module.exports.login = async function (req, res) {
           res.status(200).json({
             token: `Bearer ${token}`,
             success: true,
-            user: candidate,
+            user: {
+              firstName: candidate.firstName,
+              lastName: candidate.lastName,
+              email: candidate.email,
+              imageUrl: candidate.imageUrl,
+              _id: candidate._id,
+            },
           });
         } else {
           res.status(401).json({
